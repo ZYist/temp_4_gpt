@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Linux DO · 飞书云文档外观
 // @namespace    https://linux.do/
-// @version      2.8.6
+// @version      2.8.8
 // @description  将 Linux DO 的主页与话题页换成飞书云文档风格，浅色 / 深色外观自动跟随站点颜色模式。仅改变外观，保留站点原有内容与交互。
 // @author       Codex
 // @match        https://linux.do/*
@@ -3194,6 +3194,20 @@
         )
       ) {
         topLine.after(bottomLine);
+      }
+
+      /*
+       * 不同 Discourse 版本会把分类徽章放在标题行中。
+       * 不能直接隐藏，否则第一个分类/tag 会消失；应将节点原样移到第二行。
+       */
+      if (bottomLine) {
+        const misplacedBadges = topLine.querySelectorAll(
+          ":scope > .badge-wrapper, :scope > .badge-category__wrapper, :scope > .discourse-tags"
+        );
+
+        for (const badge of misplacedBadges) {
+          bottomLine.appendChild(badge);
+        }
       }
     }
   }
