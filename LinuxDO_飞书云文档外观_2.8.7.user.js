@@ -775,6 +775,15 @@
       vertical-align: middle !important;
     }
 
+    /* 旧版 Discourse 可能把分类徽章作为 main-link 的额外直属节点保留。
+       这些节点会在两行布局之外单独占高，表现为下一行只露出半截灰色胶囊。 */
+    .lark-doc-home
+      .topic-list-item
+      .main-link
+      > :not(.lark-main-link-content) {
+      display: none !important;
+    }
+
     /*
      * 不直接依赖 Discourse 的 top/bottom line 布局。
      * JS 会把两行移动到这个容器：
@@ -874,6 +883,24 @@
       transform: none !important;
     }
 
+    /* 徽章内部的链接、图标和文字也要解除原站的定位与裁剪 */
+    .lark-doc-home
+      .topic-list-item
+      .main-link
+      .lark-main-link-content
+      > .link-bottom-line
+      :is(.badge-wrapper, .badge-category__wrapper, .discourse-tags) * {
+      position: static !important;
+      inset: auto !important;
+      float: none !important;
+      transform: none !important;
+      max-height: none !important;
+      overflow: visible !important;
+      vertical-align: middle !important;
+      line-height: 18px !important;
+      box-sizing: border-box !important;
+    }
+
     /* 分类徽章和标签不得进入标题行，避免挤压标题 */
     .lark-doc-home
       .topic-list-item
@@ -963,6 +990,8 @@
       align-items: center !important;
       flex-wrap: nowrap !important;
       min-width: 0 !important;
+      height: 20px !important;
+      max-height: 20px !important;
       overflow: hidden !important;
       white-space: nowrap !important;
       color: var(--lark-text-3) !important;
